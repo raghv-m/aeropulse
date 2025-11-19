@@ -1,0 +1,39 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'client/**'
+      - 'server/**'
+      - 'app/**'
+
+jobs:
+  deploy-frontend:
+    name: Deploy Frontend to Vercel
+    runs-on: ubuntu-latest
+    if: contains(github.event.head_commit.modified, 'client/')
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Deploy to Vercel Production
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          working-directory: ./client
+          vercel-args: '--prod'
+          github-comment: true
+
+  # Backend deployment can be added later
+  # Uncomment and configure for Railway, Render, or other platforms
+  # deploy-backend:
+  #   name: Deploy Backend
+  #   runs-on: ubuntu-latest
+  #   if: contains(github.event.head_commit.modified, 'server/') || contains(github.event.head_commit.modified, 'app/')
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - name: Deploy to Railway/Render
+  #       run: echo "Configure your backend deployment here"
