@@ -5,3 +5,10 @@ export const trackLayouts = {
   // Placeholder - add track data here
   // Format: trackId: { points: [[x, y, z], ...] }
 };
+
+// Track comparison data
+export const trackComparison = {
+  // Placeholder - add track comparison data here
+};
+
+
